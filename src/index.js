@@ -48,11 +48,33 @@ function getUserDataPromise(id){
 console.log(await getUserDataPromise(5));
 console.groupEnd();
 
+/* --------------------------- TESTING PERFORMANCE -------------------------- */
+console.group('Testing Performance')
+async function performanceTest(getUserData, iterations = 10, label) {
+  const start = Date.now();
+  for (let i = 0; i < iterations; i++) {
+    await getUserData(5); // Using ID 5 for the performance test
+  }
+  const end = Date.now();
+  console.log(
+    `${label} Execution time for ${iterations} iterations: ${end - start}ms`
+  );
+}
+// Run both versions of the performance test with multiple iterations
+const iterations = 1;
+performanceTest(getUserData, iterations, "Async/Await").then(() =>
+  console.log("Async/Await performance test complete")
+);
+performanceTest(getUserDataPromise, iterations, "Promise chaining").then(() =>
+  console.log("Promise chaining performance test complete")
+);
+
+console.groupEnd();
 
 
-
-
-//what we did in class
+/* -------------------------------------------------------------------------- */
+/*                            WHAT WE DID IN CLASS                            */
+/* -------------------------------------------------------------------------- */
 /* async function getUserData(id) {
   if (typeof id !== "number" || id < 1 || id > 10) {
     throw new Error("Invalid ID. Please provide a number between 1 and 10.");
@@ -189,21 +211,4 @@ console.groupEnd();
   testGetUserData(getUserDataAsync, "Async/Await version");
   testGetUserData(getUserDataPromise, "Promise chaining version"); */
   // Performance test with iterations
-  async function performanceTest(getUserData, iterations = 10, label) {
-    const start = Date.now();
-    for (let i = 0; i < iterations; i++) {
-      await getUserData(5); // Using ID 5 for the performance test
-    }
-    const end = Date.now();
-    console.log(
-      `${label} Execution time for ${iterations} iterations: ${end - start}ms`
-    );
-  }
-  // Run both versions of the performance test with multiple iterations
-  const iterations = 1;
-  performanceTest(getUserData, iterations, "Async/Await").then(() =>
-    console.log("Async/Await performance test complete")
-  );
-  performanceTest(getUserDataPromise, iterations, "Promise chaining").then(() =>
-    console.log("Promise chaining performance test complete")
-  );
+  
